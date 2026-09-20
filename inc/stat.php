@@ -35,7 +35,7 @@ $sql = "select " . $selebene . ",
 $q=$db->query($sql);
 echo "<table class='table table-condensed'>\n";
 if ( $info->PT == 1 && $info->AV == 1 ) {
-    echo "<tr><thead>";
+    echo "<thead><tr>";
     echo "<th>" . $selhead . "</th>";
     echo "<th title=\"Mitglieder\">Mtgld</th>";
     echo "<th title=\"Stimmberechtigte Parteitag\">Stimmb. PT</th>";
@@ -47,7 +47,7 @@ if ( $info->PT == 1 && $info->AV == 1 ) {
     echo "<th title=\"Stimmgewicht auf der Aufstellungsversammlung\">Anteil AV</th>";
     echo "</tr></thead>\n";
 } else {
-    echo "<tr><thead>";
+    echo "<thead><tr>";
     echo "<th>" . $selhead . "</th>";
     echo "<th title=\"Mitglieder\">Mtgld</th>";
     echo "<th title=\"Stimmberechtigte\">Stimmb.</th>";
@@ -99,7 +99,7 @@ while ($row=$q->fetch()) {
         else
             td(number_format(100 * $akkreditiert / $stimmb,1) . "&nbsp;%","r");
 
-        if ($bigrow['akkreditiert'] == 0)
+        if ($akkreditiert_bigrow == 0)
             td("");
         else
             td(number_format(100 * $akkreditiert / $akkreditiert_bigrow,1) . "&nbsp;%","r");
@@ -108,34 +108,61 @@ while ($row=$q->fetch()) {
     echo "</tr>\n";
 }
 echo "</tbody>\n";
-$row = $bigrow;
-echo "<tfoot><tr>";
-td("Summe");
-td($row['mitglieder'],"r");
-td($row['stimmb'],"r");
-if ($row['mitglieder'] == 0)
-    td("");
-else
-    td(number_format(100 * $row['stimmb'] / $row['mitglieder'],2) . "&nbsp;%","r");
-td($row['akkreditiert'],"r");
+
+// Aggregierte Werte für die Summenzeile
+$total_stimmbPT = $bigrow['stimmbPT'];
+$total_stimmbAV = $bigrow['stimmbAV'];
+$total_akkreditiertPT = $bigrow['akkreditiertPT'];
+$total_akkreditiertAV = $bigrow['akkreditiertAV'];
+
 if ( $info->PT == 1 && $info->AV == 1 ) {
-    td("");
-    td($row['stimmbAV'],"r");
-    td($row['akkreditiertAV'],"r");
+    echo "<tfoot><tr>";
+    td("Summe");
+    td($bigrow['mitglieder'],"r");
+    td($total_stimmbPT,"r");
+    if ($bigrow['mitglieder'] == 0)
+        td("");
+    else
+        td(number_format(100 * $total_stimmbPT / $bigrow['mitglieder'],2) . "&nbsp;%","r");
+    td($total_akkreditiertPT,"r");
+    if ($total_akkreditiertPT == 0)
+        td("");
+    else
+        td(number_format(100 * $total_akkreditiertPT / $total_akkreditiertPT,2) . "&nbsp;%","r");
+
+    td($total_stimmbAV,"r");
+    td($total_akkreditiertAV,"r");
+    if ($total_akkreditiertAV == 0)
+        td("");
+    else
+        td(number_format(100 * $total_akkreditiertAV / $total_akkreditiertAV,2) . "&nbsp;%","r");
+    echo "</tr></tfoot></table>\n";
 } else {
-    $akkreditiert = ($info->AV==1) ? $row['akkreditiertAV'] : $row['akkreditiertPT'];
-    $stimmb = ($info->AV==1) ? $row['stimmbAV'] : $row['stimmbPT'];
-    if ($row['mitglieder'] == 0)
-        td("");
-    else
-        td(number_format(100 * $akkreditiert / $row['mitglieder'],2) . "&nbsp;%","r");
+    $total_akkreditiert = ($info->AV==1) ? $total_akkreditiertAV : $total_akkreditiertPT;
+    $total_stimmb = ($info->AV==1) ? $total_stimmbAV : $total_stimmbPT;
 
-    if ($row['stimmb'] == 0)
+    echo "<tfoot><tr>";
+    td("Summe");
+    td($bigrow['mitglieder'],"r");
+    td($total_stimmb,"r");
+    if ($bigrow['mitglieder'] == 0)
         td("");
     else
-        td(number_format(100 * $akkreditiert / $stimmb,2) . "&nbsp;%","r");
-        
-    td("");
+        td(number_format(100 * $total_stimmb / $bigrow['mitglieder'],2) . "&nbsp;%","r");
+    td($total_akkreditiert,"r");
+    if ($bigrow['mitglieder'] == 0)
+        td("");
+    else
+        td(number_format(100 * $total_akkreditiert / $bigrow['mitglieder'],2) . "&nbsp;%","r");
+
+    if ($total_stimmb == 0)
+        td("");
+    else
+        td(number_format(100 * $total_akkreditiert / $total_stimmb,2) . "&nbsp;%","r");
+
+    if ($total_akkreditiert == 0)
+        td("");
+    else
+        td(number_format(100 * $total_akkreditiert / $total_akkreditiert,2) . "&nbsp;%","r");
+    echo "</tr></tfoot></table>\n";
 }
-
-echo "</tr></tfoot></table>\n";
