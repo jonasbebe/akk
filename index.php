@@ -11,8 +11,7 @@ $action = "akk";
 
 // PT Mitglied wird akkreditiert
 if (isset($_REQUEST['akkpt'])) {
-    $k = each($_REQUEST['akkpt']);
-    $akkid = $k['key'];
+    $akkid = key($_REQUEST['akkpt']);
     $sql = "UPDATE tblakk SET akkPT = 1, akkrediteurPT = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
@@ -22,8 +21,7 @@ if (isset($_REQUEST['akkpt'])) {
 
 // AV Mitglied wird akkreditiert
 if (isset($_REQUEST['akkav'])) {
-    $k = each($_REQUEST['akkav']);
-    $akkid = $k['key'];
+    $akkid = key($_REQUEST['akkav']);
     $sql = "UPDATE tblakk SET akkAV = 1, akkrediteurAV = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
@@ -33,8 +31,7 @@ if (isset($_REQUEST['akkav'])) {
 
 // PT Mitglied wird deakkreditiert
 if (isset($_REQUEST['deakkpt'])) {
-    $k = each($_REQUEST['deakkpt']);
-    $akkid = $k['key'];
+    $akkid = key($_REQUEST['deakkpt']);
     $sql = "UPDATE tblakk SET akkPT = 0, akkrediteurPT = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
@@ -44,8 +41,7 @@ if (isset($_REQUEST['deakkpt'])) {
 
 // AV Mitglied wird deakkreditiert
 if (isset($_REQUEST['deakkav'])) {
-    $k = each($_REQUEST['deakkav']);
-    $akkid = $k['key'];
+    $akkid = key($_REQUEST['deakkav']);
     $sql = "UPDATE tblakk SET akkAV = 0, akkrediteurAV = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
@@ -55,8 +51,7 @@ if (isset($_REQUEST['deakkav'])) {
 
 // Mitglied will bezahlen
 if (isset($_REQUEST['pay'])) {
-    $k = each($_REQUEST['pay']);
-    $akkid = $k['key'];
+    $akkid = key($_REQUEST['pay']);
     $action = "topay";
     $h2 = "Barzahlung auf dem Parteitag";
 }
@@ -100,8 +95,7 @@ if (isset($_REQUEST['paid'])) {
 
 // Mitglied hat doch nicht bezahlt
 if (isset($_REQUEST['unpay'])) {
-    $k = each($_REQUEST['unpay']);
-    $akkid = $k['key'];
+    $akkid = key($_REQUEST['unpay']);
     $sql = "UPDATE tblakk SET akkPT = 0, offenerbeitrag = offenerbeitragold, schwebend = IF(mitgliedsnummer IS NULL,1,0), kommentar = concat(kommentar,' | doch nicht gezahlt'),  akkrediteurPT = :akkrediteur, akkrediteurAV = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
@@ -131,8 +125,7 @@ if (isset($_REQUEST['unpay'])) {
 
 // Mitgliedsdaten editieren
 if (isset($_REQUEST['edit'])) {
-    $k = each($_REQUEST['edit']);
-    $akkid = $k['key'];
+    $akkid = key($_REQUEST['edit']);
     $action = "edit";
     $h2 = "Mitgliedsdaten ändern";
 }
