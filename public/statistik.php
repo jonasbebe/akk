@@ -11,6 +11,7 @@ include("functions.php");
 <meta http-equiv="refresh" content="30">
 <title>Akk Akkreditierungsstatistik</title>
 <link rel="shortcut icon" href="/favicon.ico" >
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/css/akk.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
 <!-- DO NOT REMOVE THIS
@@ -35,7 +36,7 @@ $row = $db->query($sql)->fetch();
 if ($info->PT == 1 && $info->AV == 1) {
    echo "<h2>Akkreditiert PT: <span class='akkCount'>&nbsp;",$row['akkreditiertPT'],"&nbsp;</span>&nbsp;-&nbsp;Akkreditiert AV: <span class='akkCount'>&nbsp;",$row['akkreditiertAV'],"&nbsp;</span></h2>";
 } else {
-   echo "<h2>Akkreditiert: <span class='akkCount'>&nbsp;".($info->PT==1)?$row['akkreditiertPT']:$row['akkreditiertAV']."&nbsp;</span></h2>";
+   echo "<h2>Akkreditiert: <span class='akkCount'>&nbsp;" . (($info->PT==1) ? $row['akkreditiertPT'] : $row['akkreditiertAV']) . "&nbsp;</span></h2>";
 }
 
 echo "<ul></ul>\n";
