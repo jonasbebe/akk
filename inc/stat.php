@@ -5,8 +5,14 @@ if ($info->ebene == "EP") {
     $selebene="nation";
     $selhead="Nation";
 } else if ($info->ebene == "LV") {
-    $selebene="kv";
-    $selhead="KV";
+    $hasBezirk = $db->query("SELECT COUNT(*) AS cnt FROM tblakk WHERE bezirk IS NOT NULL AND bezirk != ''")->fetchColumn();
+    if ($hasBezirk > 0) {
+        $selebene = "bezirk";
+        $selhead = "Bezirk";
+    } else {
+        $selebene = "kv";
+        $selhead = "KV";
+    }
 } else if ($info->ebene == "KV") {
     $selebene="ort";
     $selhead="Ort";

@@ -84,7 +84,8 @@ function pUploadForm() {
 			<li>suchvname</li>
 			<li>kommentar</li>
 			<li>warnung</li>
-		    </ul>
+			<li>bezirk</li>
+		</ul>
 		</div>
 	    </div>
 	</div>
@@ -120,7 +121,8 @@ function pUploadForm() {
 			<li>suchvname</li>
 			<li>kommentar</li>
 			<li>warnung</li>
-		    </ul>
+			<li>bezirk</li>
+			</ul>
 		</div>
 	    </div>
 	</div>

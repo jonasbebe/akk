@@ -137,7 +137,7 @@ if (isset($_REQUEST['feditcancel'])) {
 
 // Mitgliedsdaten wurden editiert, oder neues Mitglied angelegt, jetzt eintragen
 if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
-    if (badinput($_REQUEST['kommentar']) || badinput($_REQUEST['vorname']) || badinput($_REQUEST['nachname']) || badinput($_REQUEST['strasse']) || badinput($_REQUEST['plz']) || badinput($_REQUEST['ort']) || badinput($_REQUEST['nat']) || badinput($_REQUEST['lv']) || badinput($_REQUEST['kv']) ) {
+    if (badinput($_REQUEST['kommentar']) || badinput($_REQUEST['vorname']) || badinput($_REQUEST['nachname']) || badinput($_REQUEST['strasse']) || badinput($_REQUEST['plz']) || badinput($_REQUEST['ort']) || badinput($_REQUEST['nat']) || badinput($_REQUEST['lv']) || badinput($_REQUEST['kv']) || badinput($_REQUEST['bezirk']) ) {
         die("nice try");
         exit();
     }
@@ -155,8 +155,8 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
             header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
         }
 // neues Mitglied in tblakk eintragen
-        $sql = "INSERT INTO tblakk (refcode, vorname, nachname, strasse, plz, ort, nation, lv, kv, offenerbeitrag, suchname, suchvname, akkPT, akkAV, kommentar, offenerbeitragold, warnung, geburtsdatum) ";
-        $sql .= "values(:refcode, :vorname, :nachname, :strasse, :plz, :ort, :nation, :lv, :kv, :offenerbeitrag, :suchname, :suchvname, 0, 0, :kommentar, :offenerbeitragold, :warnung, :gebdat)";
+        $sql = "INSERT INTO tblakk (refcode, vorname, nachname, strasse, plz, ort, nation, lv, kv, bezirk, offenerbeitrag, suchname, suchvname, akkPT, akkAV, kommentar, offenerbeitragold, warnung, geburtsdatum) ";
+        $sql .= "values(:refcode, :vorname, :nachname, :strasse, :plz, :ort, :nation, :lv, :kv, :bezirk, :offenerbeitrag, :suchname, :suchvname, 0, 0, :kommentar, :offenerbeitragold, :warnung, :gebdat)";
         $rs = $db->prepare($sql);
         $rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
         $rs->bindParam(':vorname', $_REQUEST['vorname'], PDO::PARAM_STR);
@@ -167,6 +167,7 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
         $rs->bindParam(':nation', $_REQUEST['nat'], PDO::PARAM_STR);
         $rs->bindParam(':lv', $_REQUEST['lv'], PDO::PARAM_STR);
         $rs->bindParam(':kv', $_REQUEST['kv'], PDO::PARAM_STR);
+        $rs->bindParam(':bezirk', $_REQUEST['bezirk'], PDO::PARAM_STR);
         $rs->bindParam(':offenerbeitrag', $_REQUEST['offenerbeitrag'], PDO::PARAM_INT);
         $rs->bindParam(':suchname', fuzzystring($db->quote($_REQUEST['nachname'])), PDO::PARAM_STR);
         $rs->bindParam(':suchvname', fuzzystring($db->quote($_REQUEST['vorname'])), PDO::PARAM_STR);
@@ -184,11 +185,11 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
 // akkid ermitteln
         $akkid = $db->lastInsertId();
 // sql für INSERT in tbladress
-        $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, nation, lv, kv, akkrediteur, geaendert, kommentar, geburtsdatum, new)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :nation, :lv, :kv, :akkrediteur, now(), :kommentar, :gebdat, 1)";
+        $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, nation, lv, kv, bezirk, akkrediteur, geaendert, kommentar, geburtsdatum, new)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :nation, :lv, :kv, :bezirk, :akkrediteur, now(), :kommentar, :gebdat, 1)";
     } else {
         $akkid = $_REQUEST['fakkid'];
 // sql für INSERT in tbladress
-        $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, lv, kv, akkrediteur, geaendert, kommentar, edit)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, :akkrediteur, now(), :kommentar, 1)";
+        $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, lv, kv, bezirk, akkrediteur, geaendert, kommentar, edit)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, :bezirk, :akkrediteur, now(), :kommentar, 1)";
     }
 // neuen Datensatz in tbladress eintragen
     $rs = $db->prepare($sql);
@@ -203,6 +204,7 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
     $rs->bindParam(':nation', $_REQUEST['nat'], PDO::PARAM_STR);
     $rs->bindParam(':lv', $_REQUEST['lv'], PDO::PARAM_STR);
     $rs->bindParam(':kv', $_REQUEST['kv'], PDO::PARAM_STR);
+    $rs->bindParam(':bezirk', $_REQUEST['bezirk'], PDO::PARAM_STR);
     $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
     $rs->bindParam(':kommentar', $kommentar, PDO::PARAM_STR);
     $rs->bindParam(':gebdat', $gebdat, PDO::PARAM_STR);
@@ -221,6 +223,7 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
 					nation = :nation,
 					lv = :lv,
 					kv = :kv,
+					bezirk = :bezirk,
 					suchname = :suchname,
 					suchvname = :suchvname,
 					kommentar = :kommentar,
@@ -238,6 +241,7 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
         $rs->bindParam(':nation', $_REQUEST['nat'], PDO::PARAM_STR);
 		$rs->bindParam(':lv', $_REQUEST['lv'], PDO::PARAM_STR);
 		$rs->bindParam(':kv', $_REQUEST['kv'], PDO::PARAM_STR);
+		$rs->bindParam(':bezirk', $_REQUEST['bezirk'], PDO::PARAM_STR);
         $rs->bindParam(':suchname', fuzzystring($db->quote($_REQUEST['nachname'])), PDO::PARAM_STR);
         $rs->bindParam(':suchvname', fuzzystring($db->quote($_REQUEST['vorname'])), PDO::PARAM_STR);
 		$rs->bindParam(':kommentar', $_REQUEST['kommentar'], PDO::PARAM_STR);
