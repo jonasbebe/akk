@@ -19,18 +19,18 @@ if($data == false) {
 			// Not allowed to be imported
 			unset( $row['akk'], $row['akkPT'], $row['akkAV'], $row['akkrediteur'], $row['akkrediteurPT'], $row['akkrediteurAV'] );
 			unset( $row['id'], $row['stimmberechtigung'], $row['offenerbeitragold'], $row['geaendert'] );
-			$row['offenerbeitragold'] = $row['offenerbeitrag'];
+			$row['offenerbeitragold'] = $row['offenerbeitrag'] ?? null;
 			if ( empty( $row['suchname'] ) ) {
-				$row['suchname'] = fuzzystring($db->quote($row['nachname']));
+				$row['suchname'] = fuzzystring($db->quote($row['nachname'] ?? ''));
 			}
 			if ( empty( $row['suchvname'] ) ) {
-				$row['suchvname'] = fuzzystring($db->quote($row['vorname']));
+				$row['suchvname'] = fuzzystring($db->quote($row['vorname'] ?? ''));
 			}
 			$question_marks[] = '(' . placeholders('?', sizeof($row)) . ')';
 			$insert_values[] = array_values($row);
 		}
 		$insert_values_combined = array_merge(...$insert_values);
-		$insert_values_combined = str_replace('\N',null,$insert_values_combined);
+		$insert_values_combined = array_map(fn($v) => $v === '\\N' ? null : $v, $insert_values_combined);
 		$sql = 'INSERT INTO tblakk (' . implode(',',array_keys($data[0])) . ') VALUES ' . implode(',',$question_marks) . ';';
 		$stmt = $db->prepare($sql);
 		$stmt->execute($insert_values_combined);
