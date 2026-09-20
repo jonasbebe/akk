@@ -21,6 +21,7 @@ if ($action == "edit") {
     $vvorname = $rows[$i]['vorname'];
     $vlv = $rows[$i]['lv'];
     $vkv = $rows[$i]['kv'];
+    $vbezirk = $rows[$i]['bezirk'];
     $vstrasse = $rows[$i]['strasse'];
     $vplz = $rows[$i]['plz'];
     $vort = $rows[$i]['ort'];
@@ -39,6 +40,7 @@ if ($action == "edit") {
     $vvorname = "";
     $vlv = "";
     $vkv = "";
+    $vbezirk = "";
     $vstrasse = "";
     $vplz = "";
     $vort = "";
@@ -90,9 +92,9 @@ echo "<form action='index.php' method='POST' class='form-horizontal'>\n";
     echo "</div></div>\n";
 
     echo "<div class='form-group'>\n";
-    echo "<label class='col-sm-2 control-label'>KV</label>\n";
+    echo "<label class='col-sm-2 control-label'>Bezirk</label>\n";
     echo "<div class='col-sm-10'>\n";
-    echo "<input type='text' class='form-control' name='kv' id='kv' value='".$vkv."'>\n";
+    echo "<input type='text' class='form-control' name='bezirk' id='bezirk' value='".$vbezirk."'>\n";
     echo "</div></div>\n";
 
     echo "<div class='form-group'>\n";
@@ -239,7 +241,7 @@ echo <<<STUFF2
 </table>
 <h2>Bisherige Änderungen</h2>
 <table class="table">
-<tr><th>Mnr</th><th>Nachname</th><th>Vorname</th><th>LV</th><th>KV</th><th>Straße</th><th>PLZ</th><th>Ort</th><th>Nat.</th><th>Geburtsdatum</th><th>Kommentar</th><th>Akkrediteur</th><th>Geändert</th></tr>
+<tr><th>Mnr</th><th>Nachname</th><th>Vorname</th><th>LV</th><th>KV</th><th>Bezirk</th><th>Straße</th><th>PLZ</th><th>Ort</th><th>Nat.</th><th>Geburtsdatum</th><th>Kommentar</th><th>Akkrediteur</th><th>Geändert</th></tr>
 STUFF2;
 
     $sqla = "SELECT * FROM tbladress WHERE akkID = :akkid";
@@ -254,6 +256,7 @@ STUFF2;
         td($rowa[$i]['vorname']);
         td($rowa[$i]['lv']);
         td($rowa[$i]['kv']);
+        td($rowa[$i]['bezirk']);
         td($rowa[$i]['strasse']);
         td($rowa[$i]['plz']);
         td($rowa[$i]['ort']);

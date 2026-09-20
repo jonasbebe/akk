@@ -6,8 +6,9 @@ include("define.php");
 include("head.php");
 $db = new mydb();
 
-$sql = "SELECT p.new, p.edit, p.mitgliedsnummer, p.nachname, p.vorname, p.strasse, p.plz, p.ort, p.lv, p.kv, p.geaendert, p.kommentar FROM tbladress p ORDER BY p.adressID";
+$sql = "SELECT p.new, p.edit, p.mitgliedsnummer, p.nachname, p.vorname, p.strasse, p.plz, p.ort, p.lv, p.kv, p.bezirk, p.geaendert, p.kommentar FROM tbladress p ORDER BY p.adressID";
 $q=$db->query($sql);
+$hasBezirk = $db->query("SELECT COUNT(*) AS cnt FROM tblakk WHERE bezirk IS NOT NULL AND bezirk != ''")->fetchColumn();
 echo "<table class='table table-borderes'>\n";
 echo "<thead><tr>";
 th("Neu?");
@@ -17,7 +18,11 @@ th("Vorname");
 th("Strasse");
 th("Ort");
 th("LV");
-th("KV");
+if ($hasBezirk > 0) {
+    th("Bezirk");
+} else {
+    th("KV");
+}
 th("geaendert");
 th("Bemerkung");
 echo "</tr></thead>\n";
@@ -35,7 +40,11 @@ while ($row=$q->fetch()) {
     td($row['strasse']);
     td($row['plz']);
     td($row['lv']);
-    td($row['kv']);
+    if ($hasBezirk > 0) {
+        td($row['bezirk']);
+    } else {
+        td($row['kv']);
+    }
     td($row['geaendert']);
     td($row['kommentar']);
     echo "</tr>\n";
