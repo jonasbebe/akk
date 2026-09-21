@@ -39,29 +39,37 @@ $sql = "select " . $selebene . ",
     group by " . $selebene . "
     order by " . $selebene . "";
 $q=$db->query($sql);
-echo "<table class='table table-condensed'>\n";
+echo "<table class='table table-condensed table-striped'>\n";
 if ( $info->PT == 1 && $info->AV == 1 ) {
+    echo "<colgroup>";
+    echo "<col style='width:14%'><col style='width:9%'><col style='width:10%'><col style='width:7%'>";
+    echo "<col style='width:9%'><col style='width:12%'><col style='width:10%'><col style='width:9%'><col style='width:12%'>";
+    echo "</colgroup>\n";
     echo "<thead><tr>";
     echo "<th>" . $selhead . "</th>";
-    echo "<th title=\"Mitglieder\">Mtgld</th>";
-    echo "<th title=\"Stimmberechtigte Parteitag\">Stimmb. PT</th>";
-    echo "<th>%</th>";
-    echo "<th title=\"Akkreditierte Parteitag\">Akk. PT</th>";
-    echo "<th title=\"Stimmgewicht auf dem Parteitag\">Anteil PT</th>";
-    echo "<th title=\"Stimmberechtigte Aufstellungsversammlung\">Stimmb. AV</th>";
-    echo "<th title=\"Akkreditierte Aufstellungsversammlung\">Akk. AV</th>";
-    echo "<th title=\"Stimmgewicht auf der Aufstellungsversammlung\">Anteil AV</th>";
+    echo "<th class='r' title=\"Mitglieder\">Mtgld</th>";
+    echo "<th class='r' title=\"Stimmberechtigte Parteitag\">Stimmb. PT</th>";
+    echo "<th class='r'>%</th>";
+    echo "<th class='r' title=\"Akkreditierte Parteitag\">Akk. PT</th>";
+    echo "<th class='r' title=\"Stimmgewicht auf dem Parteitag\">Anteil PT</th>";
+    echo "<th class='r' title=\"Stimmberechtigte Aufstellungsversammlung\">Stimmb. AV</th>";
+    echo "<th class='r' title=\"Akkreditierte Aufstellungsversammlung\">Akk. AV</th>";
+    echo "<th class='r' title=\"Stimmgewicht auf der Aufstellungsversammlung\">Anteil AV</th>";
     echo "</tr></thead>\n";
 } else {
+    echo "<colgroup>";
+    echo "<col style='width:16%'><col style='width:10%'><col style='width:10%'><col style='width:8%'>";
+    echo "<col style='width:10%'><col style='width:16%'><col style='width:16%'><col style='width:14%'>";
+    echo "</colgroup>\n";
     echo "<thead><tr>";
     echo "<th>" . $selhead . "</th>";
-    echo "<th title=\"Mitglieder\">Mtgld</th>";
-    echo "<th title=\"Stimmberechtigte\">Stimmb.</th>";
-    echo "<th>%</th>";
-    echo "<th title=\"Akkreditierte\">Akk.</th>";
-    echo "<th title=\"Anteil Akkreditierte / Mitglieder\">% Akk. / Mtgld</th>";
-    echo "<th title=\"Anteil Akkreditierte / Stimmberechtigte\">Akk. Stimmb.</th>";
-    echo "<th title=\"Stimmgewicht auf dem Parteitag\">Parteitag Anteil</th>";
+    echo "<th class='r' title=\"Mitglieder\">Mtgld</th>";
+    echo "<th class='r' title=\"Stimmberechtigte\">Stimmb.</th>";
+    echo "<th class='r'>%</th>";
+    echo "<th class='r' title=\"Akkreditierte\">Akk.</th>";
+    echo "<th class='r' title=\"Anteil Akkreditierte / Mitglieder\">% Akk. / Mtgld</th>";
+    echo "<th class='r' title=\"Anteil Akkreditierte / Stimmberechtigte\">Akk. Stimmb.</th>";
+    echo "<th class='r' title=\"Stimmgewicht auf dem Parteitag\">Parteitag Anteil</th>";
     echo "</tr></thead>\n";
 }
 
