@@ -14,6 +14,18 @@ include("functions.php");
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/css/akk.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
+<style>
+body { font-size: 1.6vw; }
+h1 { font-size: 3vw; }
+h2 { font-size: 2.4vw; }
+.table th, .table td { font-size: 1.6vw; padding: 0.8vh 1vw; }
+.table-striped tbody tr:nth-child(odd) td { background-color: #ffffff; }
+.table-striped tbody tr:nth-child(even) td { background-color: #f5f5f5; }
+tfoot tr td { background-color: #e8e8e8 !important; font-weight: bold; }
+.akkCount { font-size: 2.4vw; font-weight: bold; }
+#titel { height: auto; position: relative; min-width: unset; border-top: 0.5vw solid orange; }
+#result { margin-top: 1em; }
+</style>
 <!-- DO NOT REMOVE THIS
 Hier steht ein Dank an Wilm, der das erste Akk-Tool überhaupt für die Piratenpartei programmiert hat,
 und an Hendrik und Sebastian, die die Akkreditierung immer reibungslos zum Laufen gebracht haben.
