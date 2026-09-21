@@ -48,7 +48,7 @@ $row = $db->query($sql)->fetch();
 if ($info->PT == 1 && $info->AV == 1) {
    echo "<h2>Akkreditiert PT: <span class='akkCount'>&nbsp;",$row['akkreditiertPT'],"&nbsp;</span>&nbsp;-&nbsp;Akkreditiert AV: <span class='akkCount'>&nbsp;",$row['akkreditiertAV'],"&nbsp;</span></h2>";
 } else {
-   echo "<h2>Akkreditiert: <span class='akkCount'>&nbsp;" . (($info->PT==1) ? $row['akkreditiertPT'] : $row['akkreditiertAV']) . "&nbsp;</span></h2>";
+   echo "<h2>Akkreditiert: <span class='akkCount'>&nbsp;".(($info->PT==1)?$row['akkreditiertPT']:$row['akkreditiertAV'])."&nbsp;</span></h2>";
 }
 
 echo "<ul></ul>\n";
